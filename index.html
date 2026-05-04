@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.credit {
+  font-size: 11px;
+  color: #ffffff;
+  margin-left: 6px;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.credit::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1px;
+  background: #00ffd5;
+  transition: 0.3s;
+}
+
+.logo:hover .credit::after {
+  width: 100%;
+}
+  :root {
+    --bg: #f5f3ef;
+    --surface: #ffffff;
+    --border: #e0dcd5;
+    --border-light: #ede9e3;
+    --text: #1a1814;
+    --text-muted: #7a756e;
+    --text-hint: #b0aa9f;
+    --accent: #2c2825;
+    --gold: #b8860b;
+    --gold-light: #f5edd8;
+    --input-bg: #fafaf8;
+    --sidebar: #1e1c19;
+    --sidebar-text: #d4cfc8;
+    --sidebar-muted: #8a847c;
+    --tag-bg: #f0ede8;
+    --radius: 8px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- HEADER ---- */
+  .app-header {
+    background: var(--sidebar);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: var(--gold); }
+  .header-actions { display: flex; gap: 10px; }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 7px 18px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-ghost {
+    background: rgba(255,255,255,0.08);
+    color: var(--sidebar-text);
+    border: 1px solid rgba(255,255,255,0.12);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.14); }
+  .btn-gold {
+    background: var(--gold);
+    color: #fff;
+  }
+  .btn-gold:hover { opacity: 0.9; }
+
+  /* ---- LAYOUT ---- */
+  .app-body {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 56px);
+  }
+
+  /* ---- EDITOR PANEL ---- */
+  .editor {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .editor::-webkit-scrollbar { width: 4px; }
+  .editor::-webkit-scrollbar-track { background: transparent; }
+  .editor::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem;
+    gap: 0;
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .tab {
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 14px 14px;
+    cursor: pointer;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--gold);
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  .tab-panel { display: none; padding: 1.5rem; }
+  .tab-panel.active { display: block; }
+
+  /* FORM ELEMENTS */
+  .form-row { margin-bottom: 1rem; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem; }
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], textarea, select {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    font-size: 13.5px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--gold); }
+  textarea { resize: vertical; line-height: 1.6; min-height: 80px; }
+  select { appearance: none; cursor: pointer; }
+
+  /* SECTION CARD */
+  .section-card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .section-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    cursor: pointer;
+    user-select: none;
+    background: #faf9f7;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .section-card-header:hover { background: #f5f3ef; }
+  .section-card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--accent);
+  }
+  .section-card-sub {
+    font-size: 11.5px;
+    color: var(--text-muted);
+    margin-top: 1px;
+  }
+  .card-toggle {
+    font-size: 16px;
+    color: var(--text-hint);
+    transition: transform 0.2s;
+  }
+  .section-card.collapsed .card-toggle { transform: rotate(-90deg); }
+  .section-card-body { padding: 14px; }
+  .section-card.collapsed .section-card-body { display: none; }
+
+  .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--gold);
+    background: var(--gold-light);
+    border: 1px dashed var(--gold);
+    border-radius: var(--radius);
+    padding: 8px 14px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+    transition: background 0.15s;
+  }
+  .add-btn:hover { background: #f0e4b8; }
+
+  .remove-btn {
+    font-size: 11px;
+    color: #c0392b;
+    background: #fdf0ee;
+    border: 1px solid #f5c6c2;
+    border-radius: 4px;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: background 0.15s;
+  }
+  .remove-btn:hover { background: #f9d9d6; }
+
+  /* SKILL TAGS */
+  .skill-input-wrap { display: flex; gap: 8px; }
+  .skill-input-wrap input { flex: 1; }
+  .skill-add-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 9px 16px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: opacity 0.15s;
+  }
+  .skill-add-btn:hover { opacity: 0.85; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .skill-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 10px 4px 12px;
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .skill-remove {
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text-hint);
+    line-height: 1;
+    padding: 0 2px;
+  }
+  .skill-remove:hover { color: #c0392b; }
+
+  /* SECTION DIVIDER */
+  .form-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1.2rem 0;
+    font-size: 11px;
+    color: var(--text-hint);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .form-divider::before, .form-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+  }
+
+  .item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .item-num {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  @media print {
+  @page {
+    margin: 0;
+  }
+
+  body {
+    margin: 0;
+  }
+}
+
+.skills span {
+  display: inline-block;
+  margin: 5px;
+}
+
+
+
+  /* THEME SELECTOR */
+  .theme-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem; }
+  .theme-card {
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: border-color 0.15s;
+  }
+  .theme-card.selected { border-color: var(--gold); }
+  .theme-preview {
+    height: 50px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    display: flex;
+    overflow: hidden;
+  }
+  .theme-preview-left { flex: 1; }
+  .theme-preview-right { width: 40%; }
+  .theme-name { font-size: 11.5px; font-weight: 500; color: var(--accent); }
+
+  /* ---- PREVIEW PANEL ---- */
+  .preview-panel {
+    background: #e8e4de;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1.5rem;
+  }
+  .preview-panel::-webkit-scrollbar { width: 4px; }
+  .preview-panel::-webkit-scrollbar-thumb { background: #c8c4be; border-radius: 2px; }
+
+  /* ---- RESUME PREVIEW ---- */
+  .resume {
+    background: #fff;
+    width: 100%;
+    max-width: 640px;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  /* THEME: Classic Dark */
+  .resume.theme-classic .r-header {
+    background: #1a1a2e;
+    color: #f0e6d3;
+    padding: 2rem 2rem 1.6rem;
+  }
+  .resume.theme-classic .r-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #f0e6d3;
+    line-height: 1.1;
+  }
+  .resume.theme-classic .r-title-badge {
+    display: inline-block;
+    margin-top: 6px;
+    background: rgba(184,134,11,0.2);
+    color: #d4a352;
+    border: 1px solid rgba(184,134,11,0.4);
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    letter-spacing: 0.3px;
+  }
+  .resume.theme-classic .r-contact-row {
+    display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px;
+  }
+  .resume.theme-classic .r-contact-item {
+    font-size: 11.5px; color: rgba(240,230,211,0.7);
+    display: flex; align-items: center; gap: 4px;
+  }
+  .resume.theme-classic .r-dot { width:4px;height:4px;border-radius:50%;background:#d4a352;flex-shrink:0; }
+  .resume.theme-classic .r-section-label {
+    font-size: 9px; font-weight: 500; letter-spacing: 2.5px;
+    text-transform: uppercase; color: #b8860b;
+    border-bottom: 2px solid #b8860b; display: inline-block;
+    padding-bottom: 4px; margin-bottom: 12px;
+  }
+  .resume.theme-classic .r-body { display: grid; grid-template-columns: 1fr 180px; }
+  .resume.theme-classic .r-main { padding: 1.5rem 1.5rem 1.5rem 2rem; border-right: 1px solid #e8e4de; }
+  .resume.theme-classic .r-side { padding: 1.5rem; background: #faf9f7; }
+  .resume.theme-classic .r-job-title { font-family:'Cormorant Garamond',serif; font-size:14.5px; font-weight:600; color:#1a1814; }
+  .resume.theme-classic .r-company { font-size:11.5px; color:#7a756e; margin-bottom:5px; }
+  .resume.theme-classic .r-bullet { font-size:11.5px; color:#5a554e; line-height:1.6; padding-left:10px; border-left:2px solid #e0dcd5; margin-bottom:3px; }
+  .resume.theme-classic .r-skill-tag { display:inline-block; font-size:11px; padding:3px 9px; background:#f0ede8; border:1px solid #e0dcd5; border-radius:4px; margin:2px 2px 2px 0; color:#5a554e; }
+  .resume.theme-classic .r-edu-deg { font-size:12.5px; font-weight:500; color:#1a1814; }
+  .resume.theme-classic .r-edu-school { font-size:11px; color:#7a756e; }
+  .resume.theme-classic .r-lang-row { display:flex;justify-content:space-between;align-items:center;margin-bottom:7px; }
+  .resume.theme-classic .r-lang-name { font-size:11.5px; color:#1a1814; }
+  .resume.theme-classic .r-lang-dots { display:flex;gap:3px; }
+  .resume.theme-classic .r-lang-dot { width:7px;height:7px;border-radius:50%; }
+  .resume.theme-classic .dot-fill { background:#b8860b; }
+  .resume.theme-classic .dot-empty { background:#e0dcd5; }
+  .resume.theme-classic .r-xp-item { margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid #e8e4de; }
+  .resume.theme-classic .r-xp-item:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+  .resume.theme-classic .r-xp-top { display:flex;justify-content:space-between;align-items:start;margin-bottom:2px; }
+  .resume.theme-classic .r-date { font-size:10.5px; color:#7a756e; white-space:nowrap; margin-top:2px; }
+  .resume.theme-classic .r-section { margin-bottom:1.4rem; }
+  .resume.theme-classic .r-side-section { margin-bottom:1.2rem; }
+  .resume.theme-classic .r-summary { font-size:12px; color:#5a554e; line-height:1.7; font-weight:300; }
+  .resume.theme-classic .r-project-title { font-size:13px; font-weight:500; color:#1a1814; }
+  .resume.theme-classic .r-project-desc { font-size:11.5px; color:#7a756e; margin-top:2px; }
+
+  /* THEME: Minimal White */
+  .resume.theme-minimal .r-header {
+    background: #fff;
+    border-bottom: 3px solid #1a1814;
+    padding: 1.8rem 2rem 1.4rem;
+  }
+  .resume.theme-minimal .r-name { font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:#1a1814;letter-spacing:-1px; }
+  .resume.theme-minimal .r-title-badge { display:block;font-size:12px;color:#7a756e;margin-top:4px;letter-spacing:2px;text-transform:uppercase; }
+  .resume.theme-minimal .r-contact-row { display:flex;flex-wrap:wrap;gap:14px;margin-top:10px; }
+  .resume.theme-minimal .r-contact-item { font-size:11.5px;color:#7a756e;display:flex;align-items:center;gap:4px; }
+  .resume.theme-minimal .r-dot { width:3px;height:3px;border-radius:50%;background:#1a1814;flex-shrink:0; }
+  .resume.theme-minimal .r-section-label { font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#1a1814;border-bottom:1.5px solid #1a1814;display:inline-block;padding-bottom:3px;margin-bottom:12px; }
+  .resume.theme-minimal .r-body { display:grid;grid-template-columns:1fr 170px; }
+  .resume.theme-minimal .r-main { padding:1.5rem 1.5rem 1.5rem 2rem;border-right:1px solid #e8e4de; }
+  .resume.theme-minimal .r-side { padding:1.5rem;background:#fafaf8; }
+  .resume.theme-minimal .r-job-title { font-size:14px;font-weight:500;color:#1a1814; }
+  .resume.theme-minimal .r-company { font-size:11.5px;color:#7a756e;margin-bottom:5px; }
+  .resume.theme-minimal .r-bullet { font-size:11.5px;color:#5a554e;line-height:1.6;padding-left:8px;border-left:1.5px solid #d0ccc6;margin-bottom:3px; }
+  .resume.theme-minimal .r-skill-tag { display:inline-block;font-size:11px;padding:3px 9px;background:#f5f3ef;border:1px solid #e0dcd5;border-radius:3px;margin:2px 2px 2px 0;color:#5a554e; }
+  .resume.theme-minimal .r-edu-deg { font-size:12.5px;font-weight:500;color:#1a1814; }
+  .resume.theme-minimal .r-edu-school { font-size:11px;color:#7a756e; }
+  .resume.theme-minimal .r-lang-row { display:flex;justify-content:space-between;align-items:center;margin-bottom:7px; }
+  .resume.theme-minimal .r-lang-name { font-size:11.5px;color:#1a1814; }
+  .resume.theme-minimal .r-lang-dots { display:flex;gap:3px; }
+  .resume.theme-minimal .r-lang-dot { width:7px;height:7px;border-radius:50%; }
+  .resume.theme-minimal .dot-fill { background:#1a1814; }
+  .resume.theme-minimal .dot-empty { background:#e0dcd5; }
+  .resume.theme-minimal .r-xp-item { margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid #e8e4de; }
+  .resume.theme-minimal .r-xp-item:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+  .resume.theme-minimal .r-xp-top { display:flex;justify-content:space-between;align-items:start;margin-bottom:2px; }
+  .resume.theme-minimal .r-date { font-size:10.5px;color:#7a756e;white-space:nowrap;margin-top:2px; }
+  .resume.theme-minimal .r-section { margin-bottom:1.4rem; }
+  .resume.theme-minimal .r-side-section { margin-bottom:1.2rem; }
+  .resume.theme-minimal .r-summary { font-size:12px;color:#5a554e;line-height:1.7;font-weight:300; }
+  .resume.theme-minimal .r-project-title { font-size:13px;font-weight:500;color:#1a1814; }
+  .resume.theme-minimal .r-project-desc { font-size:11.5px;color:#7a756e;margin-top:2px; }
+
+  /* THEME: Navy Blue */
+  .resume.theme-navy .r-header { background:#0f2557;padding:1.8rem 2rem 1.5rem; }
+  .resume.theme-navy .r-name { font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:700;color:#fff;line-height:1.1; }
+  .resume.theme-navy .r-title-badge { display:inline-block;margin-top:6px;background:rgba(255,255,255,0.12);color:#a8c4e8;border:1px solid rgba(255,255,255,0.2);padding:3px 12px;border-radius:20px;font-size:11px;letter-spacing:0.3px; }
+  .resume.theme-navy .r-contact-row { display:flex;flex-wrap:wrap;gap:12px;margin-top:14px; }
+  .resume.theme-navy .r-contact-item { font-size:11.5px;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:4px; }
+  .resume.theme-navy .r-dot { width:4px;height:4px;border-radius:50%;background:#5b9bd5;flex-shrink:0; }
+  .resume.theme-navy .r-section-label { font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#0f2557;border-bottom:2px solid #0f2557;display:inline-block;padding-bottom:3px;margin-bottom:12px; }
+  .resume.theme-navy .r-body { display:grid;grid-template-columns:1fr 175px; }
+  .resume.theme-navy .r-main { padding:1.5rem 1.5rem 1.5rem 2rem;border-right:1px solid #dde4ef; }
+  .resume.theme-navy .r-side { padding:1.5rem;background:#f0f4fb; }
+  .resume.theme-navy .r-job-title { font-size:14px;font-weight:500;color:#0f2557; }
+  .resume.theme-navy .r-company { font-size:11.5px;color:#5a7a9e;margin-bottom:5px; }
+  .resume.theme-navy .r-bullet { font-size:11.5px;color:#4a5e70;line-height:1.6;padding-left:8px;border-left:2px solid #b0c4d8;margin-bottom:3px; }
+  .resume.theme-navy .r-skill-tag { display:inline-block;font-size:11px;padding:3px 9px;background:#e8eef7;border:1px solid #c8d4e5;border-radius:4px;margin:2px 2px 2px 0;color:#2d4a6e; }
+  .resume.theme-navy .r-edu-deg { font-size:12.5px;font-weight:500;color:#0f2557; }
+  .resume.theme-navy .r-edu-school { font-size:11px;color:#5a7a9e; }
+  .resume.theme-navy .r-lang-row { display:flex;justify-content:space-between;align-items:center;margin-bottom:7px; }
+  .resume.theme-navy .r-lang-name { font-size:11.5px;color:#1a2a4a; }
+  .resume.theme-navy .r-lang-dots { display:flex;gap:3px; }
+  .resume.theme-navy .r-lang-dot { width:7px;height:7px;border-radius:50%; }
+  .resume.theme-navy .dot-fill { background:#0f2557; }
+  .resume.theme-navy .dot-empty { background:#c8d4e5; }
+  .resume.theme-navy .r-xp-item { margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid #dde4ef; }
+  .resume.theme-navy .r-xp-item:last-child { border-bottom:none;margin-bottom:0;padding-bottom:0; }
+  .resume.theme-navy .r-xp-top { display:flex;justify-content:space-between;align-items:start;margin-bottom:2px; }
+  .resume.theme-navy .r-date { font-size:10.5px;color:#7a9ab8;white-space:nowrap;margin-top:2px; }
+  .resume.theme-navy .r-section { margin-bottom:1.4rem; }
+  .resume.theme-navy .r-side-section { margin-bottom:1.2rem; }
+  .resume.theme-navy .r-summary { font-size:12px;color:#4a5e70;line-height:1.7;font-weight:300; }
+  .resume.theme-navy .r-project-title { font-size:13px;font-weight:500;color:#0f2557; }
+  .resume.theme-navy .r-project-desc { font-size:11.5px;color:#5a7a9e;margin-top:2px; }
+
+  .r-sep { height:1px;background:rgba(0,0,0,0.07);margin:0.8rem 0; }
+  .r-empty { font-size:12px; color:#b0aa9f; font-style:italic; padding:4px 0; }
+
+  /* PRINT */
+  @media print {
+    .app-header,.editor,.preview-panel > *:not(.resume) { display:none!important; }
+    body { background:#fff; }
+    .app-body { display:block; }
+    .preview-panel { background:#fff;padding:0; }
+    .resume { max-width:none;box-shadow:none; }
+  }
+</style>
+</head>
+<body>
+<div class="app-header">
+  <div class="logo">Resume<span>Builder</span>
+    <small class="credit">by Anshul Raj Verma</small>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost" onclick="window.print()">Print / PDF</button>  
+  </div>
+</div>
+
+<div class="app-body">
+  <!-- EDITOR -->
+  <div class="editor">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('personal')">Personal</div>
+      <div class="tab" onclick="switchTab('experience')">Experience</div>
+      <div class="tab" onclick="switchTab('education')">Education</div>
+      <div class="tab" onclick="switchTab('skills')">Skills</div>
+      <div class="tab" onclick="switchTab('extras')">More</div>
+      <div class="tab" onclick="switchTab('design')">Design</div>
+    </div>
+
+    <!-- PERSONAL TAB -->
+    <div id="tab-personal" class="tab-panel active">
+      <div class="form-row">
+        <label>Full Name</label>
+        <input type="text" id="f-name" placeholder="Your Name" oninput="render()">
+      </div>
+      <div class="form-row">
+        <label>Job Title</label>
+        <input type="text" id="f-title" placeholder="Your Profession" oninput="render()">
+      </div>
+      <div class="form-row">
+        <label>Professional Summary</label>
+        <textarea id="f-summary" rows="4" oninput="render()"></textarea>
+      </div>
+      <div class="form-divider">Contact Info</div>
+      <div class="form-row-2">
+        <div>
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="Your@email.com" oninput="render()">
+        </div>
+        <div>
+          <label>Phone</label>
+          <input type="tel" id="f-phone" placeholder="+91 98765 43210" oninput="render()">
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label>City / Location</label>
+          <input type="text" id="f-location" placeholder="XYZ" oninput="render()">
+        </div>
+        <div>
+          <label>Website/Portfolio(Optional)</label>
+          <input type="url" id="f-website" placeholder="aapkiwebsite.com" oninput="render()">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>LinkedIn(Optional)</label>
+        <input type="text" id="f-linkedin" placeholder="linkedin.com/in/yourname" oninput="render()">
+      </div>
+    </div>
+
+    <!-- EXPERIENCE TAB -->
+    <div id="tab-experience" class="tab-panel">
+      <div id="xp-container"></div>
+      <button class="add-btn" onclick="addExperience()">+ Add Experience</button>
+    </div>
+
+    <!-- EDUCATION TAB -->
+    <div id="tab-education" class="tab-panel">
+      <div id="edu-container"></div>
+      <button class="add-btn" onclick="addEducation()">+ Add Education</button>
+    </div>
+
+    <!-- SKILLS TAB -->
+    <div id="tab-skills" class="tab-panel">
+      <div class="section-card">
+        <div class="section-card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="section-card-title">Technical Skills</div>
+            <div class="section-card-sub">Add your core technical skills</div>
+          </div>
+          <div class="card-toggle">▾</div>
+        </div>
+        <div class="section-card-body">
+          <div class="skill-input-wrap">
+            <input type="text" id="skill-input" placeholder="e.g. Figma, Python..." onkeydown="if(event.key==='Enter')addSkill()">
+            <button class="skill-add-btn" onclick="addSkill()">Add</button>
+          </div>
+          <div class="skill-tags" id="skill-tags"></div>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="section-card-title">Languages</div>
+          </div>
+          <div class="card-toggle">▾</div>
+        </div>
+        <div class="section-card-body">
+          <div id="lang-container"></div>
+          <button class="add-btn" onclick="addLanguage()">+ Add Language</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXTRAS TAB -->
+    <div id="tab-extras" class="tab-panel">
+      <div class="section-card">
+        <div class="section-card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="section-card-title">Projects</div>
+          </div>
+          <div class="card-toggle">▾</div>
+        </div>
+        <div class="section-card-body">
+          <div id="proj-container"></div>
+          <button class="add-btn" onclick="addProject()">+ Add Project</button>
+        </div>
+      </div>
+      <div class="section-card" style="margin-top:12px;">
+        <div class="section-card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="section-card-title">Interests / Hobbies</div>
+          </div>
+          <div class="card-toggle">▾</div>
+        </div>
+        <div class="section-card-body">
+          <div class="skill-input-wrap">
+            <input type="text" id="interest-input" placeholder="e.g. Photography, Travel..." onkeydown="if(event.key==='Enter')addInterest()">
+            <button class="skill-add-btn" onclick="addInterest()">Add</button>
+          </div>
+          <div class="skill-tags" id="interest-tags"></div>
+        </div>
+      </div>
+      <div class="section-card" style="margin-top:12px;">
+        <div class="section-card-header" onclick="toggleCard(this)">
+          <div>
+            <div class="section-card-title">Certifications</div>
+          </div>
+          <div class="card-toggle">▾</div>
+        </div>
+        <div class="section-card-body">
+          <div id="cert-container"></div>
+          <button class="add-btn" onclick="addCert()">+ Add Certification</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESIGN TAB -->
+    <div id="tab-design" class="tab-panel">
+      <label style="margin-bottom:10px;display:block;">Resume Theme</label>
+      <div class="theme-grid">
+        <div class="theme-card selected" onclick="setTheme('classic',this)">
+          <div class="theme-preview">
+            <div class="theme-preview-left" style="background:#1a1a2e;"></div>
+            <div class="theme-preview-right" style="background:#faf9f7;border-left:1px solid #e0dcd5;"></div>
+          </div>
+          <div class="theme-name">Classic Dark</div>
+        </div>
+        <div class="theme-card" onclick="setTheme('minimal',this)">
+          <div class="theme-preview">
+            <div class="theme-preview-left" style="background:#fff;border-bottom:3px solid #1a1814;"></div>
+            <div class="theme-preview-right" style="background:#fafaf8;border-left:1px solid #e0dcd5;"></div>
+          </div>
+          <div class="theme-name">Minimal</div>
+        </div>
+        <div class="theme-card" onclick="setTheme('navy',this)">
+          <div class="theme-preview">
+            <div class="theme-preview-left" style="background:#0f2557;"></div>
+            <div class="theme-preview-right" style="background:#f0f4fb;border-left:1px solid #dde4ef;"></div>
+          </div>
+          <div class="theme-name">Navy Blue</div>
+        </div>
+      </div>
+      <div class="form-divider">Font Size</div>
+      <div class="form-row">
+        <label>Compact / Spacious</label>
+        <input type="range" id="font-scale" min="90" max="115" value="100" oninput="applyScale(this.value)" style="width:100%;margin-top:6px;">
+      </div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview-panel">
+    <div class="resume theme-classic" id="resume-preview"></div>
+  </div>
+</div>
+
+<script>
+// ---- STATE ----
+let state = {
+  theme: 'classic',
+  experiences: [],
+  education: [],
+  skills: [],
+  languages: [],
+  projects: [],
+  interests: [],
+  certifications: []
+};
+
+// ---- TABS ----
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['personal','experience','education','skills','extras','design'][i]===name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ---- CARD TOGGLE ----
+function toggleCard(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+// ---- THEME ----
+function setTheme(theme, card) {
+  state.theme = theme;
+  document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  const r = document.getElementById('resume-preview');
+  r.className = 'resume theme-'+theme;
+  render();
+}
+
+function applyScale(val) {
+  document.getElementById('resume-preview').style.fontSize = (val/100)+'rem';
+}
+
+// ---- EXPERIENCE ----
+// FIX: Card header ko update karne ke liye alag function - bina poora re-render kiye
+function updateXpCardHeader(id) {
+  const xp = state.experiences.find(x => x.id === id);
+  if (!xp) return;
+  const card = document.querySelector(`[data-xp-id="${id}"]`);
+  if (!card) return;
+  card.querySelector('.section-card-title').textContent = xp.title || 'Job Title';
+  card.querySelector('.section-card-sub').textContent = xp.company || 'Company';
+}
+
+function addExperience() {
+  const id = Date.now();
+  state.experiences.push({id, title:'', company:'', location:'', from:'', to:'', current:false, points:['']});
+  renderExperienceEditor();
+  render();
+}
+
+function removeExperience(id) {
+  state.experiences = state.experiences.filter(x => x.id !== id);
+  renderExperienceEditor();
+  render();
+}
+
+function addXpPoint(id) {
+  const xp = state.experiences.find(x => x.id === id);
+  if (!xp) return;
+  xp.points.push('');
+  // Sirf us card ke points section ko re-render karein
+  renderXpPoints(id);
+  render();
+}
+
+function removeXpPoint(id, j) {
+  const xp = state.experiences.find(x => x.id === id);
+  if (!xp) return;
+  xp.points.splice(j, 1);
+  renderXpPoints(id);
+  render();
+}
+
+// FIX: Sirf points list re-render karo, poora editor nahi
+function renderXpPoints(id) {
+  const xp = state.experiences.find(x => x.id === id);
+  if (!xp) return;
+  const container = document.querySelector(`[data-xp-id="${id}"] .xp-points-container`);
+  if (!container) return;
+  container.innerHTML = xp.points.map((p, j) => `
+    <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
+      <input type="text" value="${esc(p)}" placeholder="Achievement ya responsibility..." style="flex:1;"
+        oninput="
+          const xp=state.experiences.find(x=>x.id===${id});
+          if(xp){xp.points[${j}]=this.value;render();}
+        ">
+      <button onclick="removeXpPoint(${id},${j})" style="border:none;background:#fdf0ee;color:#c0392b;border-radius:4px;padding:6px 8px;cursor:pointer;font-size:14px;flex-shrink:0;">×</button>
+    </div>`).join('');
+}
+
+function renderExperienceEditor() {
+  const c = document.getElementById('xp-container');
+  c.innerHTML = state.experiences.map((xp, i) => `
+    <div class="section-card" data-xp-id="${xp.id}">
+      <div class="section-card-header" onclick="toggleCard(this)">
+        <div>
+          <div class="section-card-title">${esc(xp.title) || 'Job Title'}</div>
+          <div class="section-card-sub">${esc(xp.company) || 'Company'}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="remove-btn" onclick="event.stopPropagation();removeExperience(${xp.id})">Remove</button>
+          <div class="card-toggle">▾</div>
+        </div>
+      </div>
+      <div class="section-card-body">
+        <div class="form-row-2">
+          <div>
+            <label>Job Title</label>
+            <input type="text" value="${esc(xp.title)}" placeholder="Software Engineer"
+              oninput="
+                const xp=state.experiences.find(x=>x.id===${xp.id});
+                if(xp){xp.title=this.value;updateXpCardHeader(${xp.id});render();}
+              ">
+          </div>
+          <div>
+            <label>Company</label>
+            <input type="text" value="${esc(xp.company)}" placeholder="Google"
+              oninput="
+                const xp=state.experiences.find(x=>x.id===${xp.id});
+                if(xp){xp.company=this.value;updateXpCardHeader(${xp.id});render();}
+              ">
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label>From</label>
+            <input type="text" value="${esc(xp.from)}" placeholder="Jan 2021"
+              oninput="
+                const xp=state.experiences.find(x=>x.id===${xp.id});
+                if(xp){xp.from=this.value;render();}
+              ">
+          </div>
+          <div>
+            <label>To</label>
+            <input type="text" value="${esc(xp.to)}" placeholder="Present"
+              oninput="
+                const xp=state.experiences.find(x=>x.id===${xp.id});
+                if(xp){xp.to=this.value;render();}
+              ">
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Location</label>
+          <input type="text" value="${esc(xp.location)}" placeholder="Mumbai"
+            oninput="
+              const xp=state.experiences.find(x=>x.id===${xp.id});
+              if(xp){xp.location=this.value;render();}
+            ">
+        </div>
+        <label style="margin-bottom:6px;">Key Achievements</label>
+        <div class="xp-points-container">
+          ${xp.points.map((p, j) => `
+            <div style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
+              <input type="text" value="${esc(p)}" placeholder="Achievement ya responsibility..." style="flex:1;"
+                oninput="
+                  const xp=state.experiences.find(x=>x.id===${xp.id});
+                  if(xp){xp.points[${j}]=this.value;render();}
+                ">
+              <button onclick="removeXpPoint(${xp.id},${j})" style="border:none;background:#fdf0ee;color:#c0392b;border-radius:4px;padding:6px 8px;cursor:pointer;font-size:14px;flex-shrink:0;">×</button>
+            </div>`).join('')}
+        </div>
+        <button class="add-btn" style="margin-top:0;" onclick="addXpPoint(${xp.id})">+ Add Point</button>
+      </div>
+    </div>`).join('');
+}
+
+// ---- EDUCATION ----
+function updateEduCardHeader(id) {
+  const edu = state.education.find(x => x.id === id);
+  if (!edu) return;
+  const card = document.querySelector(`[data-edu-id="${id}"]`);
+  if (!card) return;
+  card.querySelector('.section-card-title').textContent = edu.degree || 'Degree';
+  card.querySelector('.section-card-sub').textContent = edu.school || 'Institution';
+}
+
+function addEducation() {
+  const id = Date.now();
+  state.education.push({id, degree:'', school:'', year:'', grade:''});
+  renderEducationEditor();
+  render();
+}
+
+function removeEducation(id) {
+  state.education = state.education.filter(x => x.id !== id);
+  renderEducationEditor();
+  render();
+}
+
+function renderEducationEditor() {
+  const c = document.getElementById('edu-container');
+  c.innerHTML = state.education.map((edu, i) => `
+    <div class="section-card" data-edu-id="${edu.id}">
+      <div class="section-card-header" onclick="toggleCard(this)">
+        <div>
+          <div class="section-card-title">${esc(edu.degree) || 'Degree'}</div>
+          <div class="section-card-sub">${esc(edu.school) || 'Institution'}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="remove-btn" onclick="event.stopPropagation();removeEducation(${edu.id})">Remove</button>
+          <div class="card-toggle">▾</div>
+        </div>
+      </div>
+      <div class="section-card-body">
+        <div class="form-row">
+          <label>Degree / Course</label>
+          <input type="text" value="${esc(edu.degree)}" placeholder="B.Tech Computer Science"
+            oninput="
+              const edu=state.education.find(x=>x.id===${edu.id});
+              if(edu){edu.degree=this.value;updateEduCardHeader(${edu.id});render();}
+            ">
+        </div>
+        <div class="form-row">
+          <label>Institution</label>
+          <input type="text" value="${esc(edu.school)}" placeholder="IIT Bombay"
+            oninput="
+              const edu=state.education.find(x=>x.id===${edu.id});
+              if(edu){edu.school=this.value;updateEduCardHeader(${edu.id});render();}
+            ">
+        </div>
+        <div class="form-row-2">
+          <div>
+            <label>Year</label>
+            <input type="text" value="${esc(edu.year)}" placeholder="2019 – 2023"
+              oninput="
+                const edu=state.education.find(x=>x.id===${edu.id});
+                if(edu){edu.year=this.value;render();}
+              ">
+          </div>
+          <div>
+            <label>Grade / CGPA</label>
+            <input type="text" value="${esc(edu.grade)}" placeholder="8.5 CGPA"
+              oninput="
+                const edu=state.education.find(x=>x.id===${edu.id});
+                if(edu){edu.grade=this.value;render();}
+              ">
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ---- SKILLS ----
+function addSkill() {
+  const inp = document.getElementById('skill-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  state.skills.push(val);
+  inp.value = '';
+  renderSkillTags();
+  render();
+}
+
+function removeSkill(i) {
+  state.skills.splice(i,1);
+  renderSkillTags();
+  render();
+}
+
+function renderSkillTags() {
+  document.getElementById('skill-tags').innerHTML = state.skills.map((s,i) =>
+    `<div class="skill-tag">${esc(s)}<span class="skill-remove" onclick="removeSkill(${i})">×</span></div>`).join('');
+}
+
+// ---- LANGUAGES ----
+function addLanguage() {
+  state.languages.push({name:'', level:5});
+  renderLanguageEditor();
+  render();
+}
+
+function renderLanguageEditor() {
+  const c = document.getElementById('lang-container');
+  c.innerHTML = state.languages.map((l,i) => `
+    <div style="display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;margin-bottom:8px;">
+      <input type="text" value="${esc(l.name)}" placeholder="Hindi"
+        oninput="state.languages[${i}].name=this.value;render()">
+      <select onchange="state.languages[${i}].level=parseInt(this.value);render()">
+        <option value="5" ${l.level===5?'selected':''}>Native</option>
+        <option value="4" ${l.level===4?'selected':''}>Fluent</option>
+        <option value="3" ${l.level===3?'selected':''}>Good</option>
+        <option value="2" ${l.level===2?'selected':''}>Basic</option>
+      </select>
+      <button onclick="state.languages.splice(${i},1);renderLanguageEditor();render()" style="border:none;background:#fdf0ee;color:#c0392b;border-radius:4px;padding:8px 10px;cursor:pointer;font-size:14px;">×</button>
+    </div>`).join('');
+}
+
+// ---- PROJECTS ----
+function addProject() {
+  state.projects.push({title:'', desc:''});
+  renderProjectEditor();
+  render();
+}
+
+function renderProjectEditor() {
+  const c = document.getElementById('proj-container');
+  c.innerHTML = state.projects.map((p,i) => `
+    <div style="margin-bottom:12px;padding:12px;background:#faf9f7;border:1px solid #e8e4de;border-radius:8px;">
+      <div class="item-header">
+        <div class="item-num">Project ${i+1}</div>
+        <button class="remove-btn" onclick="state.projects.splice(${i},1);renderProjectEditor();render()">Remove</button>
+      </div>
+      <div class="form-row">
+        <label>Project Name</label>
+        <input type="text" value="${esc(p.title)}" placeholder="HealthTrack App"
+          oninput="state.projects[${i}].title=this.value;render()">
+      </div>
+      <div class="form-row">
+        <label>Description</label>
+        <textarea rows="2" placeholder="Project ka brief description..."
+          oninput="state.projects[${i}].desc=this.value;render()">${esc(p.desc)}</textarea>
+      </div>
+    </div>`).join('');
+}
+
+// ---- INTERESTS ----
+function addInterest() {
+  const inp = document.getElementById('interest-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  state.interests.push(val);
+  inp.value = '';
+  renderInterestTags();
+  render();
+}
+
+function removeInterest(i) {
+  state.interests.splice(i,1);
+  renderInterestTags();
+  render();
+}
+
+function renderInterestTags() {
+  document.getElementById('interest-tags').innerHTML = state.interests.map((s,i) =>
+    `<div class="skill-tag">${esc(s)}<span class="skill-remove" onclick="removeInterest(${i})">×</span></div>`).join('');
+}
+
+// ---- CERTS ----
+function addCert() {
+  state.certifications.push({name:'', org:'', year:''});
+  renderCertEditor();
+  render();
+}
+
+function renderCertEditor() {
+  const c = document.getElementById('cert-container');
+  c.innerHTML = state.certifications.map((cert,i) => `
+    <div style="margin-bottom:10px;padding:10px;background:#faf9f7;border:1px solid #e8e4de;border-radius:8px;">
+      <div class="item-header">
+        <div class="item-num">Cert ${i+1}</div>
+        <button class="remove-btn" onclick="state.certifications.splice(${i},1);renderCertEditor();render()">Remove</button>
+      </div>
+      <div class="form-row-2">
+        <div>
+          <label>Certificate</label>
+          <input type="text" value="${esc(cert.name)}" placeholder="AWS Certified..."
+            oninput="state.certifications[${i}].name=this.value;render()">
+        </div>
+        <div>
+          <label>Issuer</label>
+          <input type="text" value="${esc(cert.org)}" placeholder="Amazon"
+            oninput="state.certifications[${i}].org=this.value;render()">
+        </div>
+      </div>
+      <div class="form-row">
+        <label>Year</label>
+        <input type="text" value="${esc(cert.year)}" placeholder="2023"
+          oninput="state.certifications[${i}].year=this.value;render()">
+      </div>
+    </div>`).join('');
+}
+
+// ---- RENDER RESUME ----
+function g(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function escRaw(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function langDots(level) {
+  return [1,2,3,4,5].map(i => `<div class="r-lang-dot ${i<=level?'dot-fill':'dot-empty'}"></div>`).join('');
+}
+
+function render() {
+  const name = g('f-name') || 'Aapka Naam';
+  const title = g('f-title') || 'Aapka Designation';
+  const summary = g('f-summary');
+  const email = g('f-email');
+  const phone = g('f-phone');
+  const location = g('f-location');
+  const website = g('f-website');
+  const linkedin = g('f-linkedin');
+
+  const contacts = [email,phone,location,website,linkedin].filter(Boolean);
+
+  const xpHTML = state.experiences.length ? state.experiences.map(xp => `
+    <div class="r-xp-item">
+      <div class="r-xp-top">
+        <div class="r-job-title">${escRaw(xp.title)||'Job Title'}</div>
+        <div class="r-date">${escRaw(xp.from)}${xp.from&&xp.to?' – ':''}${escRaw(xp.to)}</div>
+      </div>
+      <div class="r-company">${escRaw(xp.company)}${xp.location?' · '+escRaw(xp.location):''}</div>
+      ${xp.points.filter(p=>p.trim()).map(p=>`<div class="r-bullet">${escRaw(p)}</div>`).join('')}
+    </div>`).join('') : '<div class="r-empty">Experience tab mein add karein</div>';
+
+  const eduHTML = state.education.length ? state.education.map(edu => `
+    <div style="margin-bottom:0.8rem;">
+      <div class="r-edu-deg">${escRaw(edu.degree)||'Degree'}</div>
+      <div class="r-edu-school">${escRaw(edu.school)}${edu.grade?' · '+escRaw(edu.grade):''}</div>
+      ${edu.year?`<div style="font-size:10.5px;margin-top:1px;opacity:0.7;">${escRaw(edu.year)}</div>`:''}
+    </div>`).join('') : '<div class="r-empty">Education tab mein add karein</div>';
+
+  const skillsHTML = state.skills.length
+    ? state.skills.map(s=>`<span class="r-skill-tag">${escRaw(s)}</span>`).join('')
+    : '<div class="r-empty">Skills tab mein add karein</div>';
+
+  const langHTML = state.languages.length
+    ? state.languages.map(l=>`<div class="r-lang-row"><span class="r-lang-name">${escRaw(l.name)}</span><div class="r-lang-dots">${langDots(l.level)}</div></div>`).join('')
+    : '';
+
+  const projHTML = state.projects.filter(p=>p.title||p.desc).map(p=>`
+    <div style="margin-bottom:0.7rem;">
+      <div class="r-project-title">${escRaw(p.title)}</div>
+      ${p.desc?`<div class="r-project-desc">${escRaw(p.desc)}</div>`:''}
+    </div>`).join('');
+
+  const intHTML = state.interests.length
+    ? state.interests.map(s=>`<span class="r-skill-tag">${escRaw(s)}</span>`).join('')
+    : '';
+
+  const certHTML = state.certifications.filter(c=>c.name).map(c=>`
+    <div style="margin-bottom:0.6rem;">
+      <div class="r-edu-deg">${escRaw(c.name)}</div>
+      <div class="r-edu-school">${escRaw(c.org)}${c.year?' · '+escRaw(c.year):''}</div>
+    </div>`).join('');
+
+  document.getElementById('resume-preview').innerHTML = `
+    <div class="r-header">
+      <div class="r-name">${escRaw(name)}</div>
+      <div class="r-title-badge">${escRaw(title)}</div>
+      ${contacts.length ? `<div class="r-contact-row">${contacts.map(c=>`<div class="r-contact-item"><div class="r-dot"></div>${escRaw(c)}</div>`).join('')}</div>` : ''}
+    </div>
+    <div class="r-body">
+      <div class="r-main">
+        ${summary ? `<div class="r-section"><div class="r-section-label">Profile</div><div class="r-summary">${escRaw(summary)}</div></div>` : ''}
+        <div class="r-section">
+          <div class="r-section-label">Experience</div>
+          ${xpHTML}
+        </div>
+        ${projHTML ? `<div class="r-section"><div class="r-section-label">Projects</div>${projHTML}</div>` : ''}
+      </div>
+      <div class="r-side">
+        <div class="r-side-section">
+          <div class="r-section-label">Skills</div>
+          ${skillsHTML}
+        </div>
+        <div class="r-sep"></div>
+        <div class="r-side-section">
+          <div class="r-section-label">Education</div>
+          ${eduHTML}
+        </div>
+        ${langHTML ? `<div class="r-sep"></div><div class="r-side-section"><div class="r-section-label">Languages</div>${langHTML}</div>` : ''}
+        ${intHTML ? `<div class="r-sep"></div><div class="r-side-section"><div class="r-section-label">Interests</div>${intHTML}</div>` : ''}
+        ${certHTML ? `<div class="r-sep"></div><div class="r-side-section"><div class="r-section-label">Certifications</div>${certHTML}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+// Init
+render();
+addExperience();
+addEducation();
+renderLanguageEditor();
+renderProjectEditor();
+</script>
+</body>
+</html>
